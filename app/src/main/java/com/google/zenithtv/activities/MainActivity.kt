@@ -84,6 +84,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun toggleSidebar() {
+        if (sidebarExpanded) collapseSidebar() else expandSidebar()
+    }
+
     private fun expandSidebar() {
         sidebarExpanded = true
         binding.sidebarCollapsed.visibility = View.GONE

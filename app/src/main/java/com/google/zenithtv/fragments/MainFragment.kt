@@ -38,9 +38,15 @@ class MainFragment : BrowseSupportFragment() {
 
     override fun onViewCreated(view: android.view.View, savedInstanceState: android.os.Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        // Bloquear DPAD_LEFT para que no escape al sidebar
         view.setOnKeyListener { _, keyCode, event ->
-            keyCode == android.view.KeyEvent.KEYCODE_DPAD_LEFT && event.action == android.view.KeyEvent.ACTION_DOWN
+            when {
+                keyCode == android.view.KeyEvent.KEYCODE_DPAD_LEFT && event.action == android.view.KeyEvent.ACTION_DOWN -> true
+                keyCode == android.view.KeyEvent.KEYCODE_BACK && event.action == android.view.KeyEvent.ACTION_DOWN -> {
+                    (activity as? MainActivity)?.toggleSidebar()
+                    true
+                }
+                else -> false
+            }
         }
     }
 
