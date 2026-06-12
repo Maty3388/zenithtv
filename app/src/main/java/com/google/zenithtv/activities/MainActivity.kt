@@ -128,10 +128,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (event.action == KeyEvent.ACTION_DOWN && 
-            event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT && 
+        if (event.action == KeyEvent.ACTION_DOWN &&
+            event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT &&
             !sidebarExpanded) {
-            return true // consumir el evento, no hacer nada
+            // Solo bloquear si el foco está en el RecyclerView horizontal en posición 0
+            val focused = currentFocus
+            if (focused != null) {
+                val parent = focused.parent
+                if (parent is androidx.recyclerview.widget.RecyclerView) {
+                    val pos = parent.getChildAdapterPosition(focused)
+                    if (pos == 0) return true // bloquear solo en el primer item
+                }
+            }
         }
         return super.dispatchKeyEvent(event)
     }
