@@ -126,6 +126,15 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun dispatchKeyEvent(event: KeyEvent): Boolean {
+        if (event.action == KeyEvent.ACTION_DOWN && 
+            event.keyCode == KeyEvent.KEYCODE_DPAD_LEFT && 
+            !sidebarExpanded) {
+            return true // consumir el evento, no hacer nada
+        }
+        return super.dispatchKeyEvent(event)
+    }
+
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (sidebarExpanded) { collapseSidebar(); return true }
