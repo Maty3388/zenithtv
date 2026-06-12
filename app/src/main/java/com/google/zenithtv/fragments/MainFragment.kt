@@ -18,8 +18,7 @@ class MainFragment : BrowseSupportFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         title = "ZENITH TV"
-        headersState = HEADERS_ENABLED
-        isHeadersTransitionOnBackEnabled = true
+        headersState = HEADERS_DISABLED
         brandColor = 0xFF030810.toInt()
         searchAffordanceColor = 0xFF00E5FF.toInt()
         onItemViewClickedListener = OnItemViewClickedListener { _, item, _, row ->
@@ -34,6 +33,16 @@ class MainFragment : BrowseSupportFragment() {
             }
         }
         loadChannels()
+    }
+
+    fun filterCategory(category: String?) {
+        val filtered = if (category == null) allChannels
+                       else allChannels.filter { it.category == category || it.category == "$category 2" }
+        buildRows(filtered)
+    }
+
+    fun filterCategories(cats: List<String>) {
+        buildRows(allChannels.filter { it.category in cats })
     }
 
     fun loadChannels() {

@@ -1,6 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainContainer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/background" android:orientation="horizontal">
+
+    <!-- Sidebar custom -->
+    <LinearLayout android:id="@+id/sidebar"
+        android:layout_width="180dp" android:layout_height="match_parent"
+        android:background="@color/surface" android:orientation="vertical"
+        android:paddingVertical="24dp" android:paddingHorizontal="12dp"
+        android:visibility="gone">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="ZENITH" android:textColor="@color/primary"
+            android:textSize="20sp" android:textStyle="bold"
+            android:layout_marginBottom="4dp" android:layout_marginStart="8dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="TV" android:textColor="@color/text_primary"
+            android:textSize="14sp" android:layout_marginBottom="24dp"
+            android:layout_marginStart="8dp"/>
+
+        <Button android:id="@+id/btnTv"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="📺  Televisión" android:textColor="@color/primary"
+            android:backgroundTint="@color/surface2" android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+
+        <Button android:id="@+id/btnPeliculas"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="🎬  Películas" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+
+        <Button android:id="@+id/btnSeries"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="📺  Series" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+
+        <Button android:id="@+id/btnAdultos"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="🔞  Adultos" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+
+        <View android:layout_width="match_parent" android:layout_height="0dp"
+            android:layout_weight="1"/>
+
+        <Button android:id="@+id/btnClearCache"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="🗑  Borrar Caché" android:textColor="@color/text_secondary"
+            android:backgroundTint="@color/surface" android:layout_marginBottom="8dp"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+
+        <Button android:id="@+id/btnLogout"
+            android:layout_width="match_parent" android:layout_height="48dp"
+            android:text="🚪  Cerrar Sesión" android:textColor="@color/error"
+            android:backgroundTint="@color/surface"
+            android:gravity="start|center_vertical" android:paddingStart="12dp"
+            android:focusable="true"/>
+    </LinearLayout>
+
+    <!-- Borde cian -->
+    <View android:id="@+id/sidebarBorder"
+        android:layout_width="2dp" android:layout_height="match_parent"
+        android:background="@color/primary" android:visibility="gone"/>
+
+    <!-- Fragment container -->
+    <FrameLayout android:id="@+id/mainContainer"
+        android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+</LinearLayout>
