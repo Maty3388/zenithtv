@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.zenithtv.services.ApiService
 import com.google.zenithtv.utils.AutoUpdater
 import com.google.zenithtv.utils.Prefs
-import com.google.zenithtv.utils.AutoUpdater
 import kotlinx.coroutines.*
 
 class SplashActivity : AppCompatActivity() {
