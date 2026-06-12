@@ -36,6 +36,11 @@ class MainFragment : BrowseSupportFragment() {
         loadChannels()
     }
 
+    override fun onKeyUp(keyCode: Int, event: android.view.KeyEvent?): Boolean {
+        if (keyCode == android.view.KeyEvent.KEYCODE_DPAD_LEFT) return true
+        return super.onKeyUp(keyCode, event)
+    }
+
     fun filterCategory(category: String?) {
         val filtered = if (category == null) allChannels
                        else allChannels.filter { it.category == category || it.category == "$category 2" }
