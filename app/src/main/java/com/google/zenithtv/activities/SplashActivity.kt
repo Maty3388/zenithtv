@@ -14,6 +14,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         scope.launch {
+            try {
             delay(1200)
             val token = Prefs.getToken(this@SplashActivity)
             if (token.isNotEmpty()) {
@@ -27,6 +28,11 @@ class SplashActivity : AppCompatActivity() {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }
             finish()
+            } catch (e: Exception) {
+                android.util.Log.e("ZenithTV", "Splash crash: ${e.message}", e)
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+                finish()
+            }
         }
     }
 
