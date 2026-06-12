@@ -9,6 +9,7 @@ import com.google.zenithtv.R
 import com.google.zenithtv.databinding.ActivityMainBinding
 import com.google.zenithtv.fragments.MainFragment
 import com.google.zenithtv.services.ApiService
+import com.google.zenithtv.BuildConfig
 import com.google.zenithtv.utils.AutoUpdater
 import com.google.zenithtv.utils.Prefs
 import kotlinx.coroutines.*
@@ -121,7 +122,7 @@ class MainActivity : AppCompatActivity() {
         scope.launch {
             try {
                 val ver = withContext(Dispatchers.IO) { ApiService.getVersion() }
-                if (ver != null) AutoUpdater.check(this@MainActivity, "1.0.4", ver)
+                if (ver != null) AutoUpdater.check(this@MainActivity, BuildConfig.VERSION_NAME, ver)
             } catch (_: Exception) {}
         }
     }

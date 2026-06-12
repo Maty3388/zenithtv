@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zenithtv.services.ApiService
+import com.google.zenithtv.BuildConfig
 import com.google.zenithtv.utils.AutoUpdater
 import com.google.zenithtv.utils.Prefs
 import kotlinx.coroutines.*
@@ -21,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
                 ApiService.token = token
                 try {
                     val ver = withContext(Dispatchers.IO) { ApiService.getVersion() }
-                    if (ver != null) AutoUpdater.check(this@SplashActivity, "1.0.0", ver)
+                    if (ver != null) AutoUpdater.check(this@SplashActivity, "1.1.0", ver)
                 } catch (_: Exception) {}
                 if (Prefs.isProfileSelected(this@SplashActivity))
                     startActivity(Intent(this@SplashActivity, MainActivity::class.java))
