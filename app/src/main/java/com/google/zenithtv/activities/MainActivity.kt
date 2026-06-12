@@ -1,6 +1,7 @@
 package com.google.zenithtv.activities
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
@@ -29,6 +30,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.mainContainer, mainFragment!!)
             .commit()
+
+        // Interceptar BACK antes que Leanback
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                toggleSidebar()
+            }
+        })
 
         setupSidebar()
         binding.btnProfile.setOnClickListener {
