@@ -2,14 +2,14 @@ package com.google.zenithtv.activities
 
 import android.os.Bundle
 import android.view.KeyEvent
-import androidx.fragment.app.FragmentActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.google.zenithtv.R
 import com.google.zenithtv.fragments.MainFragment
 import com.google.zenithtv.services.ApiService
 import com.google.zenithtv.utils.AutoUpdater
 import kotlinx.coroutines.*
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
     private var mainFragment: MainFragment? = null
     private val scope = CoroutineScope(Dispatchers.Main)
 
