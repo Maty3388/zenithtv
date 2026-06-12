@@ -8,6 +8,7 @@ import androidx.leanback.widget.FocusHighlight
 import com.bumptech.glide.Glide
 import com.google.zenithtv.activities.PlayerActivity
 import com.google.zenithtv.models.Channel
+import com.google.zenithtv.activities.MainActivity
 import com.google.zenithtv.services.ApiService
 import kotlinx.coroutines.*
 
