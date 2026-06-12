@@ -28,7 +28,9 @@ class PlayerActivity : AppCompatActivity() {
     private var idx = 0
     private val scope = CoroutineScope(Dispatchers.Main)
     private var retries = 0
-    private var timer: CountDownTimer? = null
+    private var loadTimer: CountDownTimer? = null
+    private var controlsTimer: CountDownTimer? = null
+    private var urlIdx = 0 // índice de URL múltiple
 
     companion object {
         const val EXTRA_CHANNELS = "channels"
@@ -57,32 +59,42 @@ class PlayerActivity : AppCompatActivity() {
         player?.addListener(object : Player.Listener {
             override fun onPlaybackStateChanged(state: Int) {
                 when (state) {
-                    Player.STATE_READY -> { showLoading(false); retries = 0; timer?.cancel() }
-                    Player.STATE_BUFFERING -> { showLoading(true); startTimer() }
+                    Player.STATE_READY -> { showLoading(false); retries = 0; urlIdx = 0; loadTimer?.cancel() }
+                    Player.STATE_BUFFERING -> { showLoading(true); startLoadTimer() }
                     Player.STATE_ENDED -> nextChannel()
                     else -> {}
                 }
             }
             override fun onPlayerError(error: PlaybackException) {
-                timer?.cancel()
-                if (retries < 3) {
-                    retries++
+                loadTimer?.cancel()
+                // Intentar URL alternativa
+                val urls = getUrls(channels[idx])
+                if (urlIdx < urls.size - 1) {
+                    urlIdx++
+                    playUrl(urls[urlIdx])
+                } else if (retries < 3) {
+                    retries++; urlIdx = 0
                     scope.launch { delay(2000); loadChannel(idx) }
                 } else { retries = 0; showLoading(false) }
             }
         })
     }
 
+    private fun getUrls(ch: Channel): List<String> {
+        return ch.streamUrl.split("|").map { it.trim() }.filter { it.isNotEmpty() }
+    }
+
     private fun loadChannel(i: Int) {
         if (channels.isEmpty()) return
-        val ch = channels[i]; idx = i; retries = 0
-        showLoading(true)
-        binding.tvNumber.text = "${i + 1}"
-        binding.tvName.text = ch.name
-        binding.tvCategory.text = ch.category
-        if (ch.logoUrl.isNotEmpty()) Glide.with(this).load(ch.logoUrl).into(binding.ivLogo)
+        val ch = channels[i]; idx = i; retries = 0; urlIdx = 0
+        showLoading(true); hideControls()
+        updateZapOverlay(ch, i)
+        val urls = getUrls(ch)
+        if (urls.isNotEmpty()) playUrl(urls[0])
+    }
 
-        val url = ch.streamUrl.split("|")[0].trim()
+    private fun playUrl(url: String) {
+        val ch = channels[idx]
         val headers = mapOf("User-Agent" to "Mozilla/5.0") + ch.headers
         val dsf = DefaultHttpDataSource.Factory().setDefaultRequestProperties(headers)
         val src = if (url.contains(".m3u8") || url.contains(".ts"))
@@ -91,17 +103,44 @@ class PlayerActivity : AppCompatActivity() {
         player?.stop(); player?.setMediaSource(src); player?.prepare(); player?.play()
     }
 
+    private fun updateZapOverlay(ch: Channel, i: Int) {
+        binding.tvNumber.text = "${i + 1}"
+        binding.tvName.text = ch.name
+        binding.tvCategory.text = ch.category
+        if (ch.logoUrl.isNotEmpty()) Glide.with(this).load(ch.logoUrl).into(binding.ivLogo)
+
+        // Actualizar controles también
+        binding.tvControlName.text = ch.name
+        binding.tvControlCategory.text = ch.category
+        binding.tvControlNumber.text = "${i + 1} / ${channels.size}"
+        if (ch.logoUrl.isNotEmpty()) Glide.with(this).load(ch.logoUrl).into(binding.ivControlLogo)
+    }
+
     private fun showLoading(show: Boolean) {
         binding.layoutLoading.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    private fun startTimer() {
-        timer?.cancel()
-        timer = object : CountDownTimer(15000, 15000) {
+    private fun showControls() {
+        binding.layoutControls.visibility = View.VISIBLE
+        controlsTimer?.cancel()
+        controlsTimer = object : CountDownTimer(4000, 4000) {
+            override fun onTick(ms: Long) {}
+            override fun onFinish() { hideControls() }
+        }.start()
+    }
+
+    private fun hideControls() {
+        binding.layoutControls.visibility = View.GONE
+        controlsTimer?.cancel()
+    }
+
+    private fun startLoadTimer() {
+        loadTimer?.cancel()
+        loadTimer = object : CountDownTimer(15000, 15000) {
             override fun onTick(ms: Long) {}
             override fun onFinish() {
                 if (retries < 3) { retries++; scope.launch { delay(500); loadChannel(idx) } }
-                else { showLoading(false) }
+                else showLoading(false)
             }
         }.start()
     }
@@ -113,6 +152,10 @@ class PlayerActivity : AppCompatActivity() {
         return when (keyCode) {
             KeyEvent.KEYCODE_DPAD_RIGHT, KeyEvent.KEYCODE_CHANNEL_UP -> { nextChannel(); true }
             KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_CHANNEL_DOWN -> { prevChannel(); true }
+            KeyEvent.KEYCODE_DPAD_CENTER, KeyEvent.KEYCODE_ENTER -> {
+                if (binding.layoutControls.visibility == View.VISIBLE) hideControls()
+                else showControls(); true
+            }
             KeyEvent.KEYCODE_BACK -> { finish(); true }
             else -> super.onKeyDown(keyCode, event)
         }
@@ -120,6 +163,6 @@ class PlayerActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        timer?.cancel(); scope.cancel(); player?.release()
+        loadTimer?.cancel(); controlsTimer?.cancel(); scope.cancel(); player?.release()
     }
 }

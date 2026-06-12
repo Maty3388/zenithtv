@@ -41,7 +41,8 @@ class LoginActivity : AppCompatActivity() {
                 ApiService.token = token
                 Prefs.saveToken(this@LoginActivity, token)
                 Prefs.saveEmail(this@LoginActivity, email)
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                Prefs.saveSubEnd(this@LoginActivity, ApiService.subEnd)
+                startActivity(Intent(this@LoginActivity, SelectProfileActivity::class.java))
                 finish()
             } else {
                 binding.tvError.text = "Credenciales incorrectas"

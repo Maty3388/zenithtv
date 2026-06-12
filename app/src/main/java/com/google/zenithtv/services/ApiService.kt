@@ -16,10 +16,14 @@ object ApiService {
         .readTimeout(20, TimeUnit.SECONDS).build()
     var token = ""
 
+    var subEnd = ""
+    
     fun login(email: String, password: String): String? {
         val body = """{"email":"$email","password":"$password"}""".toRequestBody("application/json".toMediaType())
         val res = client.newCall(Request.Builder().url("$BASE/auth/login").post(body).build()).execute()
-        return JSONObject(res.body?.string() ?: return null).optString("token").takeIf { it.isNotEmpty() }
+        val json = JSONObject(res.body?.string() ?: return null)
+        subEnd = json.optJSONObject("user")?.optString("subscription_end") ?: ""
+        return json.optString("token").takeIf { it.isNotEmpty() }
     }
 
     fun getChannels(): List<Channel> {

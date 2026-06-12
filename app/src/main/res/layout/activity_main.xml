@@ -127,7 +127,13 @@
                 android:textColor="@color/primary" android:textSize="16sp" android:textStyle="bold"/>
             <TextView android:id="@+id/tvVencimiento"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary" android:textSize="11sp"/>
+                android:textColor="@color/text_secondary" android:textSize="11sp"
+                android:layout_marginEnd="12dp"/>
+            <ImageButton android:id="@+id/btnProfile"
+                android:layout_width="36dp" android:layout_height="36dp"
+                android:src="@drawable/ic_home" android:tint="@color/primary"
+                android:background="@color/surface2" android:padding="6dp"
+                android:focusable="true"/>
         </LinearLayout>
 
         <FrameLayout android:id="@+id/mainContainer"

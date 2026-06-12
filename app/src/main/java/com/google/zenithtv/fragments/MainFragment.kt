@@ -71,45 +71,92 @@ class MainFragment : BrowseSupportFragment() {
 }
 
 class ChannelPresenter : Presenter() {
+    private val catColors = mapOf(
+        "MUNDIAL 2026" to 0xFF1A4A1A.toInt(),
+        "EVENTOS" to 0xFF4A1A00.toInt(),
+        "ARGENTINA" to 0xFF00204A.toInt(),
+        "ARGENTINA INTERIOR" to 0xFF002040.toInt(),
+        "ARGENTINA 2" to 0xFF00183A.toInt(),
+        "DEPORTES" to 0xFF4A0000.toInt(),
+        "DEPORTES 2" to 0xFF3A0000.toInt(),
+        "NOTICIAS" to 0xFF1A1A4A.toInt(),
+        "NOTICIAS 2" to 0xFF15154A.toInt(),
+        "MÚSICA" to 0xFF3A004A.toInt(),
+        "MÚSICA 2" to 0xFF30003A.toInt(),
+        "INFANTILES" to 0xFF4A3A00.toInt(),
+        "CINE" to 0xFF2A0040.toInt(),
+        "CINE 2" to 0xFF200030.toInt(),
+        "SERIES" to 0xFF004A3A.toInt(),
+        "CANALES 24/7" to 0xFF004040.toInt(),
+        "INTERNACIONAL" to 0xFF1A3A4A.toInt(),
+    )
+
     override fun onCreateViewHolder(parent: android.view.ViewGroup): ViewHolder {
         val ctx = parent.context
         val dp = ctx.resources.displayMetrics.density
-        val view = android.widget.FrameLayout(ctx).apply {
-            layoutParams = android.view.ViewGroup.LayoutParams((140*dp).toInt(), (100*dp).toInt())
-            setBackgroundColor(0xFF060E1A.toInt())
+        val card = android.widget.FrameLayout(ctx).apply {
+            layoutParams = android.view.ViewGroup.LayoutParams((150*dp).toInt(), (115*dp).toInt()).also {
+                (it as? android.view.ViewGroup.MarginLayoutParams)?.setMargins((4*dp).toInt(),(4*dp).toInt(),(4*dp).toInt(),(4*dp).toInt())
+            }
             isFocusable = true; isFocusableInTouchMode = true
+            background = android.graphics.drawable.GradientDrawable().apply {
+                cornerRadius = 14*dp
+                setColor(0xFF060E1A.toInt())
+            }
+            tag = "card"
         }
         val logo = android.widget.ImageView(ctx).apply {
-            layoutParams = android.widget.FrameLayout.LayoutParams((80*dp).toInt(), (58*dp).toInt()).apply {
+            layoutParams = android.widget.FrameLayout.LayoutParams((100*dp).toInt(), (72*dp).toInt()).apply {
                 gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
                 topMargin = (8*dp).toInt()
             }
-            scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE; tag = "logo"
+            scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
+            tag = "logo"
         }
-        val nameBar = android.widget.LinearLayout(ctx).apply {
+        val nameOverlay = android.widget.LinearLayout(ctx).apply {
             layoutParams = android.widget.FrameLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT, (28*dp).toInt()).apply { gravity = android.view.Gravity.BOTTOM }
-            setBackgroundColor(0xEE030810.toInt())
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, (34*dp).toInt()).apply {
+                gravity = android.view.Gravity.BOTTOM
+            }
+            setBackgroundColor(0xCC000000.toInt())
             setPadding((8*dp).toInt(), 0, (8*dp).toInt(), 0)
             gravity = android.view.Gravity.CENTER_VERTICAL
+            background = android.graphics.drawable.GradientDrawable().apply {
+                cornerRadii = floatArrayOf(0f,0f,0f,0f,14*dp,14*dp,14*dp,14*dp)
+                setColor(0xCC000000.toInt())
+            }
         }
         val name = android.widget.TextView(ctx).apply {
-            layoutParams = android.widget.LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
+            layoutParams = android.widget.LinearLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
             setTextColor(0xFFFFFFFF.toInt()); textSize = 10f
             typeface = android.graphics.Typeface.DEFAULT_BOLD
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; tag = "name"
         }
-        nameBar.addView(name); view.addView(logo); view.addView(nameBar)
-        return ViewHolder(view)
+        nameOverlay.addView(name); card.addView(logo); card.addView(nameOverlay)
+        return ViewHolder(card)
     }
 
     override fun onBindViewHolder(vh: ViewHolder, item: Any) {
         val ch = item as Channel
-        val view = vh.view as android.widget.FrameLayout
-        view.findViewWithTag<android.widget.TextView>("name")?.text = ch.name
-        val logo = view.findViewWithTag<android.widget.ImageView>("logo")
-        if (ch.logoUrl.isNotEmpty()) Glide.with(view).load(ch.logoUrl).into(logo!!)
+        val card = vh.view as android.widget.FrameLayout
+        card.findViewWithTag<android.widget.TextView>("name")?.text = ch.name
+        // Color de fondo por categoría
+        val bgColor = catColors[ch.category] ?: 0xFF060E1A.toInt()
+        (card.background as? android.graphics.drawable.GradientDrawable)?.setColor(bgColor)
+        val logo = card.findViewWithTag<android.widget.ImageView>("logo")
+        if (ch.logoUrl.isNotEmpty()) Glide.with(card).load(ch.logoUrl).into(logo!!)
         else logo?.setImageDrawable(null)
+        // Efecto foco
+        card.setOnFocusChangeListener { v, focused ->
+            (v.background as? android.graphics.drawable.GradientDrawable)?.setStroke(
+                if (focused) 3 else 0,
+                if (focused) 0xFF00E5FF.toInt() else 0x00000000
+            )
+            v.animate().scaleX(if (focused) 1.08f else 1f).scaleY(if (focused) 1.08f else 1f)
+                .translationZ(if (focused) 8f else 0f).setDuration(120).start()
+        }
     }
 
     override fun onUnbindViewHolder(vh: ViewHolder) {

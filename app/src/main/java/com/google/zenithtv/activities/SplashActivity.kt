@@ -23,7 +23,7 @@ class SplashActivity : AppCompatActivity() {
                     val ver = withContext(Dispatchers.IO) { ApiService.getVersion() }
                     if (ver != null) AutoUpdater.check(this@SplashActivity, "1.0.0", ver)
                 } catch (_: Exception) {}
-                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+                startActivity(Intent(this@SplashActivity, SelectProfileActivity::class.java))
             } else {
                 startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
             }

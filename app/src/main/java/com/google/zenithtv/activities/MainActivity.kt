@@ -30,6 +30,16 @@ class MainActivity : AppCompatActivity() {
             .commit()
 
         setupSidebar()
+        binding.btnProfile.setOnClickListener {
+            startActivity(android.content.Intent(this, ProfileActivity::class.java))
+        }
+        
+        // Mostrar vencimiento en header
+        val subEnd = Prefs.getSubEnd(this)
+        if (subEnd.isNotEmpty()) {
+            binding.tvVencimiento.text = "Vence: $subEnd"
+        }
+        
         checkUpdate()
     }
 
