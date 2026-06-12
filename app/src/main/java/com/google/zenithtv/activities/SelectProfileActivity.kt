@@ -7,6 +7,7 @@ import android.view.KeyEvent
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.google.zenithtv.databinding.ActivitySelectProfileBinding
+import com.google.zenithtv.utils.Prefs
 
 class SelectProfileActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySelectProfileBinding
@@ -61,12 +62,14 @@ class SelectProfileActivity : AppCompatActivity() {
             }
 
             card.setOnClickListener {
+                Prefs.saveProfileSelected(this)
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
             }
 
             card.setOnKeyListener { _, keyCode, event ->
                 if (event.action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_CENTER || keyCode == KeyEvent.KEYCODE_ENTER) {
+                    Prefs.saveProfileSelected(this)
                     startActivity(Intent(this, MainActivity::class.java))
                     finish(); true
                 } else false

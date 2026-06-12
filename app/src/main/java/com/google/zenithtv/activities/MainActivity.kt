@@ -133,8 +133,14 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton("Cancelar", null).show()
             return true
         }
+        // Solo expandir sidebar si el foco está en el primer canal de la grilla
         if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT && !sidebarExpanded) {
-            expandSidebar(); return true
+            val focused = currentFocus
+            // Si el foco está en el fragment container, no abrir sidebar
+            if (focused != null && focused.id != R.id.mainContainer) {
+                expandSidebar(); return true
+            }
+            return true // bloquear escape
         }
         return super.onKeyDown(keyCode, event)
     }

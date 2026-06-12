@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.leanback.app.BrowseSupportFragment
 import androidx.leanback.widget.*
+import androidx.leanback.widget.FocusHighlight
 import com.bumptech.glide.Glide
 import com.google.zenithtv.activities.PlayerActivity
 import com.google.zenithtv.models.Channel
@@ -55,7 +56,7 @@ class MainFragment : BrowseSupportFragment() {
     }
 
     private fun buildRows(channels: List<Channel>) {
-        val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
+        val rowsAdapter = ArrayObjectAdapter(ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL).apply { shadowEnabled = false; selectEffectEnabled = false })
         val grouped = channels.filter { it.category != "ADULTOS" }.groupBy { it.category }
         val sorted = catOrder.mapNotNull { grouped[it]?.let { chs -> it to chs } } +
                      grouped.filter { it.key !in catOrder }.map { it.key to it.value }

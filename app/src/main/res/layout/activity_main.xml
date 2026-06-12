@@ -26,19 +26,19 @@
 
         <ImageButton android:id="@+id/btnPeliculasIcon"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:src="@drawable/ic_explore" android:tint="@color/text_hint"
+            android:src="@drawable/ic_movie" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
             android:padding="8dp" android:focusable="true"/>
 
         <ImageButton android:id="@+id/btnSeriesIcon"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:src="@drawable/ic_star" android:tint="@color/text_hint"
+            android:src="@drawable/ic_tv" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
             android:padding="8dp" android:focusable="true"/>
 
         <ImageButton android:id="@+id/btnAdultosIcon"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:src="@drawable/ic_settings" android:tint="@color/text_hint"
+            android:src="@drawable/ic_lock" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
             android:padding="8dp" android:focusable="true"/>
 
@@ -52,7 +52,7 @@
 
         <ImageButton android:id="@+id/btnLogoutIcon"
             android:layout_width="40dp" android:layout_height="40dp"
-            android:src="@drawable/ic_search" android:tint="@color/error"
+            android:src="@drawable/ic_logout" android:tint="@color/error"
             android:background="@color/surface" android:padding="8dp" android:focusable="true"/>
     </LinearLayout>
 
