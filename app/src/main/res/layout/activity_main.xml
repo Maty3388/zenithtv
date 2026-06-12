@@ -3,77 +3,131 @@
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:background="@color/background" android:orientation="horizontal">
 
-    <!-- Sidebar angosto con íconos -->
-    <LinearLayout android:id="@+id/sidebar"
-        android:layout_width="64dp" android:layout_height="match_parent"
+    <!-- Sidebar colapsado (solo íconos) -->
+    <LinearLayout android:id="@+id/sidebarCollapsed"
+        android:layout_width="56dp" android:layout_height="match_parent"
         android:background="@color/surface" android:orientation="vertical"
-        android:gravity="center_horizontal" android:paddingVertical="16dp">
+        android:gravity="center_horizontal" android:paddingVertical="12dp">
 
-        <TextView android:layout_width="40dp" android:layout_height="40dp"
+        <TextView android:layout_width="36dp" android:layout_height="36dp"
             android:text="Z" android:textColor="@color/primary"
-            android:textSize="24sp" android:textStyle="bold"
-            android:gravity="center" android:layout_marginBottom="16dp"
+            android:textSize="20sp" android:textStyle="bold"
+            android:gravity="center" android:layout_marginBottom="12dp"
             android:background="@color/surface2"/>
 
-        <View android:layout_width="40dp" android:layout_height="1dp"
-            android:background="@color/border" android:layout_marginBottom="8dp"/>
+        <View android:layout_width="36dp" android:layout_height="1dp"
+            android:background="@color/border" android:layout_marginBottom="6dp"/>
 
-        <ImageButton android:id="@+id/btnTv"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnTvIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_home" android:tint="@color/primary"
             android:background="@color/surface2" android:layout_marginBottom="4dp"
-            android:padding="10dp" android:focusable="true"/>
+            android:padding="8dp" android:focusable="true"/>
 
-        <ImageButton android:id="@+id/btnPeliculas"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnPeliculasIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_explore" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
-            android:padding="10dp" android:focusable="true"/>
+            android:padding="8dp" android:focusable="true"/>
 
-        <ImageButton android:id="@+id/btnSeries"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnSeriesIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_star" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
-            android:padding="10dp" android:focusable="true"/>
+            android:padding="8dp" android:focusable="true"/>
 
-        <ImageButton android:id="@+id/btnAdultos"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnAdultosIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_settings" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
-            android:padding="10dp" android:focusable="true"/>
+            android:padding="8dp" android:focusable="true"/>
 
-        <View android:layout_width="0dp" android:layout_height="0dp"
-            android:layout_weight="1"/>
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
 
-        <ImageButton android:id="@+id/btnClearCache"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnClearCacheIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_refresh" android:tint="@color/text_hint"
             android:background="@color/surface" android:layout_marginBottom="4dp"
-            android:padding="10dp" android:focusable="true"/>
+            android:padding="8dp" android:focusable="true"/>
 
-        <ImageButton android:id="@+id/btnLogout"
-            android:layout_width="44dp" android:layout_height="44dp"
+        <ImageButton android:id="@+id/btnLogoutIcon"
+            android:layout_width="40dp" android:layout_height="40dp"
             android:src="@drawable/ic_search" android:tint="@color/error"
-            android:background="@color/surface"
-            android:padding="10dp" android:focusable="true"/>
+            android:background="@color/surface" android:padding="8dp" android:focusable="true"/>
     </LinearLayout>
 
-    <View android:layout_width="2dp" android:layout_height="match_parent"
+    <!-- Sidebar expandido (íconos + texto) -->
+    <LinearLayout android:id="@+id/sidebarExpanded"
+        android:layout_width="180dp" android:layout_height="match_parent"
+        android:background="@color/surface" android:orientation="vertical"
+        android:paddingVertical="12dp" android:paddingHorizontal="8dp"
+        android:visibility="gone">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="ZENITH TV" android:textColor="@color/primary"
+            android:textSize="16sp" android:textStyle="bold"
+            android:layout_marginBottom="12dp" android:layout_marginStart="4dp"/>
+
+        <View android:layout_width="match_parent" android:layout_height="1dp"
+            android:background="@color/border" android:layout_marginBottom="8dp"/>
+
+        <Button android:id="@+id/btnTv"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Televisión" android:textColor="@color/primary"
+            android:backgroundTint="@color/surface2" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:layout_marginBottom="4dp" android:focusable="true"/>
+
+        <Button android:id="@+id/btnPeliculas"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Películas" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:layout_marginBottom="4dp" android:focusable="true"/>
+
+        <Button android:id="@+id/btnSeries"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Series" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:layout_marginBottom="4dp" android:focusable="true"/>
+
+        <Button android:id="@+id/btnAdultos"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Adultos" android:textColor="@color/text_primary"
+            android:backgroundTint="@color/surface" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:layout_marginBottom="4dp" android:focusable="true"/>
+
+        <View android:layout_width="0dp" android:layout_height="0dp" android:layout_weight="1"/>
+
+        <Button android:id="@+id/btnClearCache"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Borrar Caché" android:textColor="@color/text_secondary"
+            android:backgroundTint="@color/surface" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:layout_marginBottom="4dp" android:focusable="true"/>
+
+        <Button android:id="@+id/btnLogout"
+            android:layout_width="match_parent" android:layout_height="44dp"
+            android:text="  Cerrar Sesión" android:textColor="@color/error"
+            android:backgroundTint="@color/surface" android:gravity="start|center_vertical"
+            android:paddingStart="8dp" android:focusable="true"/>
+    </LinearLayout>
+
+    <!-- Borde cian -->
+    <View android:id="@+id/sidebarBorder"
+        android:layout_width="2dp" android:layout_height="match_parent"
         android:background="@color/primary"/>
 
+    <!-- Header + contenido -->
     <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout android:layout_width="match_parent" android:layout_height="52dp"
+        <LinearLayout android:layout_width="match_parent" android:layout_height="48dp"
             android:background="@color/surface" android:gravity="center_vertical"
             android:paddingHorizontal="16dp">
             <TextView android:layout_width="0dp" android:layout_height="wrap_content"
                 android:layout_weight="1" android:text="ZENITH TV"
-                android:textColor="@color/primary" android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textColor="@color/primary" android:textSize="16sp" android:textStyle="bold"/>
             <TextView android:id="@+id/tvVencimiento"
                 android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textColor="@color/text_secondary" android:textSize="12sp"/>
+                android:textColor="@color/text_secondary" android:textSize="11sp"/>
         </LinearLayout>
 
         <FrameLayout android:id="@+id/mainContainer"
