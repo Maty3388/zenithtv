@@ -75,12 +75,12 @@ class ChannelPresenter : Presenter() {
         val ctx = parent.context
         val dp = ctx.resources.displayMetrics.density
         val view = android.widget.FrameLayout(ctx).apply {
-            layoutParams = android.view.ViewGroup.LayoutParams((160*dp).toInt(), (115*dp).toInt())
+            layoutParams = android.view.ViewGroup.LayoutParams((140*dp).toInt(), (100*dp).toInt())
             setBackgroundColor(0xFF060E1A.toInt())
             isFocusable = true; isFocusableInTouchMode = true
         }
         val logo = android.widget.ImageView(ctx).apply {
-            layoutParams = android.widget.FrameLayout.LayoutParams((90*dp).toInt(), (68*dp).toInt()).apply {
+            layoutParams = android.widget.FrameLayout.LayoutParams((80*dp).toInt(), (58*dp).toInt()).apply {
                 gravity = android.view.Gravity.CENTER_HORIZONTAL or android.view.Gravity.TOP
                 topMargin = (8*dp).toInt()
             }
@@ -88,14 +88,14 @@ class ChannelPresenter : Presenter() {
         }
         val nameBar = android.widget.LinearLayout(ctx).apply {
             layoutParams = android.widget.FrameLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT, (34*dp).toInt()).apply { gravity = android.view.Gravity.BOTTOM }
+                android.view.ViewGroup.LayoutParams.MATCH_PARENT, (28*dp).toInt()).apply { gravity = android.view.Gravity.BOTTOM }
             setBackgroundColor(0xEE030810.toInt())
             setPadding((8*dp).toInt(), 0, (8*dp).toInt(), 0)
             gravity = android.view.Gravity.CENTER_VERTICAL
         }
         val name = android.widget.TextView(ctx).apply {
             layoutParams = android.widget.LinearLayout.LayoutParams(android.view.ViewGroup.LayoutParams.MATCH_PARENT, android.view.ViewGroup.LayoutParams.WRAP_CONTENT)
-            setTextColor(0xFFFFFFFF.toInt()); textSize = 11f
+            setTextColor(0xFFFFFFFF.toInt()); textSize = 10f
             typeface = android.graphics.Typeface.DEFAULT_BOLD
             maxLines = 1; ellipsize = android.text.TextUtils.TruncateAt.END; tag = "name"
         }

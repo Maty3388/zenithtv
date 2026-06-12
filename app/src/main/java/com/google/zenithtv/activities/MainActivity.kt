@@ -34,13 +34,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSidebar() {
-        binding.btnTv.setOnClickListener { hideSidebar(); mainFragment?.filterCategory(null) }
-        binding.btnPeliculas.setOnClickListener { hideSidebar(); mainFragment?.filterCategory("CINE") }
-        binding.btnSeries.setOnClickListener { hideSidebar(); mainFragment?.filterCategory("SERIES") }
-        binding.btnAdultos.setOnClickListener { hideSidebar(); mainFragment?.filterCategory("ADULTOS") }
+        binding.btnTv.setOnClickListener { mainFragment?.filterCategory(null) }
+        binding.btnPeliculas.setOnClickListener { mainFragment?.filterCategory("CINE") }
+        binding.btnSeries.setOnClickListener { mainFragment?.filterCategory("SERIES") }
+        binding.btnAdultos.setOnClickListener { mainFragment?.filterCategory("ADULTOS") }
         binding.btnClearCache.setOnClickListener {
             cacheDir.deleteRecursively()
-            hideSidebar()
             android.widget.Toast.makeText(this, "Caché borrado", android.widget.Toast.LENGTH_SHORT).show()
         }
         binding.btnLogout.setOnClickListener {
@@ -74,7 +73,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (sidebarVisible) { hideSidebar(); return true }
             android.app.AlertDialog.Builder(this)
                 .setTitle("Salir").setMessage("¿Querés salir de Zenith TV?")
                 .setPositiveButton("Salir") { _,_ -> finish() }
