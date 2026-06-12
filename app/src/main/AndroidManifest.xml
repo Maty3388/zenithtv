@@ -56,7 +56,8 @@
                 android:resource="@xml/file_paths"/>
         </provider>
 
-            <activity android:name=".activities.SelectProfileActivity" android:exported="false" android:screenOrientation="landscape"/>
+            <activity android:name=".activities.SearchActivity" android:exported="false" android:screenOrientation="landscape"/>
+        <activity android:name=".activities.SelectProfileActivity" android:exported="false" android:screenOrientation="landscape"/>
         <activity android:name=".activities.ProfileActivity" android:exported="false" android:screenOrientation="landscape"/>
     </application>
 </manifest>

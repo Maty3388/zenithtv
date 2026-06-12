@@ -46,8 +46,10 @@ class MainActivity : AppCompatActivity() {
     private fun setupSidebar() {
         // Íconos colapsados - al clickear expanden el sidebar
         binding.btnTvIcon.setOnClickListener { expandSidebar() }
+        // Botón explorar/buscar en colapsado abre búsqueda directo
+        binding.btnPeliculasIcon.setOnClickListener { startActivity(android.content.Intent(this, SearchActivity::class.java)) }
         binding.btnPeliculasIcon.setOnClickListener { expandSidebar() }
-        binding.btnSeriesIcon.setOnClickListener { expandSidebar() }
+        binding.btnSeriesIcon.setOnClickListener { collapseSidebar(); mainFragment?.loadFavorites() }
         binding.btnAdultosIcon.setOnClickListener { expandSidebar() }
         binding.btnClearCacheIcon.setOnClickListener { expandSidebar() }
         binding.btnLogoutIcon.setOnClickListener { expandSidebar() }
@@ -63,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
         binding.btnSeries.setOnClickListener {
             collapseSidebar()
-            mainFragment?.filterCategory("SERIES")
+            mainFragment?.loadFavorites()
         }
         binding.btnAdultos.setOnClickListener {
             collapseSidebar()

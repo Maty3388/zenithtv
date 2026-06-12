@@ -36,6 +36,30 @@ class MainFragment : BrowseSupportFragment() {
         loadChannels()
     }
 
+    override fun onViewCreated(view: android.view.View, savedInstanceState: android.os.Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        // Bloquear DPAD_LEFT para que no escape al sidebar
+        view.setOnKeyListener { _, keyCode, event ->
+            keyCode == android.view.KeyEvent.KEYCODE_DPAD_LEFT && event.action == android.view.KeyEvent.ACTION_DOWN
+        }
+    }
+
+    fun loadFavorites() {
+        scope.launch {
+            val favs = withContext(Dispatchers.IO) {
+                try { com.google.zenithtv.services.ApiService.getFavorites() } catch (_: Exception) { emptyList() }
+            }
+            if (favs.isEmpty()) {
+                val rowsAdapter = ArrayObjectAdapter(ListRowPresenter(FocusHighlight.ZOOM_FACTOR_SMALL).apply { shadowEnabled = false; selectEffectEnabled = false })
+                val adapter = ArrayObjectAdapter(ChannelPresenter())
+                rowsAdapter.add(ListRow(HeaderItem("Sin favoritos"), adapter))
+                this@MainFragment.adapter = rowsAdapter
+            } else {
+                buildRows(favs)
+            }
+        }
+    }
+
     fun filterCategory(category: String?) {
         val filtered = if (category == null) allChannels
                        else allChannels.filter { it.category == category || it.category == "$category 2" }

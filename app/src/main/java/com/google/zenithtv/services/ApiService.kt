@@ -38,6 +38,29 @@ object ApiService {
         }
     }
 
+    fun getFavorites(): List<Channel> {
+        val res = client.newCall(Request.Builder().url("$BASE/favorites")
+            .header("Authorization", "Bearer $token").build()).execute()
+        val json = org.json.JSONObject(res.body?.string() ?: return emptyList())
+        val arr = json.optJSONArray("channels") ?: return emptyList()
+        return (0 until arr.length()).map {
+            val ch = arr.getJSONObject(it)
+            Channel(ch.optString("_id"), ch.optString("name"), ch.optString("category"),
+                ch.optString("logo"), ch.optString("stream_url"), ch.optInt("number", 999))
+        }
+    }
+
+    fun addFavorite(channelId: String) {
+        val body = "{}".toRequestBody("application/json".toMediaType())
+        client.newCall(Request.Builder().url("$BASE/favorites/$channelId")
+            .header("Authorization", "Bearer $token").post(body).build()).execute()
+    }
+
+    fun removeFavorite(channelId: String) {
+        client.newCall(Request.Builder().url("$BASE/favorites/$channelId")
+            .header("Authorization", "Bearer $token").delete().build()).execute()
+    }
+
     fun getVersion(): AppVersion? = try {
         val res = client.newCall(Request.Builder().url("$BASE/zenithtv/version").build()).execute()
         val json = JSONObject(res.body?.string() ?: return null)
