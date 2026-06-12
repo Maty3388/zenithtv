@@ -1,0 +1,3 @@
+-keep class com.google.zenithtv.models.** { *; }
+-dontwarn okhttp3.**
+-dontwarn okio.**
